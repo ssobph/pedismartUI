@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, TextInput, Dimensions } from 'react-native';
-import { router } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { Animated, Dimensions, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -12,6 +12,29 @@ export default function PassengerHome() {
   const [availablePedicabs, setAvailablePedicabs] = useState(4);
   const [avgETA, setAvgETA] = useState('3 min');
   const [isOnline, setIsOnline] = useState(true);
+
+  // Animation values for pedicab icons
+  const pedicabAnimations = [
+    new Animated.Value(1),
+    new Animated.Value(1),
+    new Animated.Value(1),
+    new Animated.Value(1),
+  ];
+
+  const animatePedicab = (index: number) => {
+    Animated.sequence([
+      Animated.timing(pedicabAnimations[index], {
+        toValue: 1.2,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(pedicabAnimations[index], {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
 
   const handleToggleOnline = () => {
     setIsOnline(!isOnline);
@@ -74,23 +97,51 @@ export default function PassengerHome() {
           
           {/* Available Pedicab Icons */}
           <View style={styles.pedicabIcons}>
-            <View style={styles.pedicabIcon}>
-              <FontAwesome5 name="car" size={16} color="white" />
-            </View>
-            <View style={styles.pedicabIcon}>
-              <FontAwesome5 name="car" size={16} color="white" />
-            </View>
-            <View style={styles.pedicabIcon}>
-              <FontAwesome5 name="car" size={16} color="white" />
-            </View>
-            <View style={styles.pedicabIcon}>
-              <FontAwesome5 name="car" size={16} color="white" />
-            </View>
+            <TouchableOpacity onPress={() => animatePedicab(0)}>
+              <Animated.View style={[styles.pedicabIcon, { transform: [{ scale: pedicabAnimations[0] }] }]}>
+                <Image 
+                  source={require('../../assets/images/pedicab-logo.png')} 
+                  style={styles.pedicabImage}
+                  resizeMode="contain"
+                />
+              </Animated.View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => animatePedicab(1)}>
+              <Animated.View style={[styles.pedicabIcon, { transform: [{ scale: pedicabAnimations[1] }] }]}>
+                <Image 
+                  source={require('../../assets/images/pedicab-logo.png')} 
+                  style={styles.pedicabImage}
+                  resizeMode="contain"
+                />
+              </Animated.View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => animatePedicab(2)}>
+              <Animated.View style={[styles.pedicabIcon, { transform: [{ scale: pedicabAnimations[2] }] }]}>
+                <Image 
+                  source={require('../../assets/images/pedicab-logo.png')} 
+                  style={styles.pedicabImage}
+                  resizeMode="contain"
+                />
+              </Animated.View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => animatePedicab(3)}>
+              <Animated.View style={[styles.pedicabIcon, { transform: [{ scale: pedicabAnimations[3] }] }]}>
+                <Image 
+                  source={require('../../assets/images/pedicab-logo.png')} 
+                  style={styles.pedicabImage}
+                  resizeMode="contain"
+                />
+              </Animated.View>
+            </TouchableOpacity>
           </View>
           
           <View style={styles.mapControls}>
             <TouchableOpacity style={styles.mapButton}>
-              <FontAwesome5 name="car" size={16} color="white" />
+              <Image 
+                source={require('../../assets/images/pedicab-logo.png')} 
+                style={styles.mapButtonImage}
+                resizeMode="contain"
+              />
             </TouchableOpacity>
             <TouchableOpacity style={styles.mapButton}>
               <FontAwesome5 name="sync" size={16} color="white" />
@@ -243,9 +294,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#27AE60',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#27AE60',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   mapControls: {
     position: 'absolute',
@@ -290,10 +346,13 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
   },
 
-  summaryLabel: {
-    fontSize: 12,
-    color: '#7F8C8D',
-    fontWeight: '500',
+  pedicabImage: {
+    width: 16,
+    height: 16,
+  },
+  mapButtonImage: {
+    width: 16,
+    height: 16,
   },
   manualButton: {
     backgroundColor: '#2C3E50',

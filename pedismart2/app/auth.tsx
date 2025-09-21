@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
@@ -38,7 +38,11 @@ export default function AuthScreen() {
           <View style={styles.header}>
             <View style={styles.logoContainer}>
               <View style={styles.carIcon}>
-                <Text style={styles.carEmoji}>🚗</Text>
+                <Image 
+                  source={require('../assets/images/pedicab-logo.png')} 
+                  style={styles.pedicabImage}
+                  resizeMode="contain"
+                />
               </View>
               <Text style={styles.appName}>PediSmart</Text>
             </View>
@@ -168,13 +172,14 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#4A90E2',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
   },
-  carEmoji: {
-    fontSize: 24,
+  pedicabImage: {
+    width: 30,
+    height: 30,
   },
   appName: {
     fontSize: 28,

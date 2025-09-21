@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
@@ -132,7 +132,11 @@ export default function PassengerBookings() {
         {activeTab === 'current' ? (
           <View style={styles.currentRideContainer}>
             <View style={styles.noCurrentRide}>
-              <FontAwesome5 name="car" size={48} color="#BDC3C7" />
+              <Image 
+                source={require('../../assets/images/pedicab-logo.png')} 
+                style={styles.noRideImage}
+                resizeMode="contain"
+              />
               <Text style={styles.noRideTitle}>No Active Ride</Text>
               <Text style={styles.noRideSubtitle}>
                 You don't have any active rides at the moment
@@ -265,10 +269,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
   },
-  bookRideButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
+  noRideImage: {
+    width: 48,
+    height: 48,
+    opacity: 0.5,
   },
   historyContainer: {
     paddingBottom: 20,

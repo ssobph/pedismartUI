@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
@@ -39,7 +39,11 @@ export default function DriverProfile() {
 
         <View style={styles.vehicleSection}>
           <View style={styles.vehicleCard}>
-            <FontAwesome5 name="car" size={24} color="#27AE60" />
+            <Image 
+              source={require('../../assets/images/pedicab-logo.png')} 
+              style={styles.vehicleImage}
+              resizeMode="contain"
+            />
             <View style={styles.vehicleInfo}>
               <Text style={styles.vehicleTitle}>Pedicab #123</Text>
               <Text style={styles.vehicleSubtitle}>Active Vehicle</Text>
@@ -58,7 +62,11 @@ export default function DriverProfile() {
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.menuItem}>
-            <FontAwesome5 name="car" size={20} color="#27AE60" />
+            <Image 
+              source={require('../../assets/images/pedicab-logo.png')} 
+              style={styles.menuImage}
+              resizeMode="contain"
+            />
             <Text style={styles.menuText}>Vehicle Settings</Text>
             <FontAwesome5 name="chevron-right" size={16} color="#BDC3C7" />
           </TouchableOpacity>
@@ -227,8 +235,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#7F8C8D',
   },
-  editButton: {
-    padding: 8,
+  vehicleImage: {
+    width: 24,
+    height: 24,
+  },
+  menuImage: {
+    width: 20,
+    height: 20,
   },
   menuSection: {
     backgroundColor: 'white',

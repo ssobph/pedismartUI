@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
+import React from 'react';
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RoleSelection() {
   const handleRoleSelect = (role: 'passenger' | 'driver') => {
@@ -22,7 +22,11 @@ export default function RoleSelection() {
         <View style={styles.content}>
           <View style={styles.logoSection}>
             <View style={styles.logoContainer}>
-              <Text style={styles.logoEmoji}>🚗</Text>
+              <Image 
+                source={require('../assets/images/pedicab-logo.png')} 
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
             </View>
             <Text style={styles.appName}>PediSmart</Text>
             <Text style={styles.tagline}>Smart Transport for Everyone</Text>
@@ -47,7 +51,11 @@ export default function RoleSelection() {
               onPress={() => handleRoleSelect('driver')}
             >
               <View style={styles.roleIcon}>
-                <FontAwesome5 name="car" size={32} color="#27AE60" />
+                <Image 
+                  source={require('../assets/images/pedicab-logo.png')} 
+                  style={styles.rolePedicabImage}
+                  resizeMode="contain"
+                />
               </View>
               <Text style={styles.roleTitle}>Driver</Text>
               <Text style={styles.roleDescription}>
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     paddingTop: 60,
-    paddingBottom: 40,
+    paddingBottom: 60, // Increased bottom padding for Android
     paddingHorizontal: 20,
   },
   logoSection: {
@@ -87,13 +95,19 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    shadowColor: '#4A90E2',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
   },
-  logoEmoji: {
-    fontSize: 40,
+  logoImage: {
+    width: 50,
+    height: 50,
   },
   appName: {
     fontSize: 36,
@@ -108,6 +122,7 @@ const styles = StyleSheet.create({
   },
   roleSection: {
     gap: 20,
+    marginBottom: 20, // Added bottom margin for Android
   },
   roleCard: {
     backgroundColor: 'white',
@@ -128,6 +143,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+  },
+  rolePedicabImage: {
+    width: 32,
+    height: 32,
   },
   roleTitle: {
     fontSize: 24,
