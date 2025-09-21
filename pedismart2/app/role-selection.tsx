@@ -1,17 +1,65 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RoleSelection() {
   const [selectedRole, setSelectedRole] = useState<'passenger' | 'driver' | null>(null);
+  const logoScale = new Animated.Value(1);
+  const driverIconScale = new Animated.Value(1);
+  const passengerIconScale = new Animated.Value(1);
+
+  const animateIcon = (iconRef: Animated.Value) => {
+    Animated.sequence([
+      Animated.timing(iconRef, {
+        toValue: 1.1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.timing(iconRef, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  // Add subtle pulse animation to logo
+  React.useEffect(() => {
+    const pulseAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(logoScale, {
+          toValue: 1.05,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoScale, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+    pulseAnimation.start();
+    
+    return () => pulseAnimation.stop();
+  }, []);
 
   const handleContinue = () => {
     if (selectedRole === 'passenger') {
       router.push('/passenger');
     } else if (selectedRole === 'driver') {
       router.push('/driver');
+    }
+  };
+
+  const handleRoleSelect = (role: 'passenger' | 'driver') => {
+    setSelectedRole(role);
+    if (role === 'driver') {
+      animateIcon(driverIconScale);
+    } else {
+      animateIcon(passengerIconScale);
     }
   };
 
@@ -25,9 +73,13 @@ export default function RoleSelection() {
       >
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-            <View style={styles.carIcon}>
-              <Text style={styles.carEmoji}>🚗</Text>
-            </View>
+            <Animated.View style={[styles.carIcon, { transform: [{ scale: logoScale }] }]}>
+              <Image 
+                source={require('../assets/images/pedicab-logo.png')} 
+                style={styles.pedicabImage}
+                resizeMode="contain"
+              />
+            </Animated.View>
             <Text style={styles.appName}>PediSmart</Text>
           </View>
           
@@ -45,11 +97,11 @@ export default function RoleSelection() {
               styles.roleCard,
               selectedRole === 'passenger' && styles.roleCardSelected
             ]}
-            onPress={() => setSelectedRole('passenger')}
+            onPress={() => handleRoleSelect('passenger')}
           >
-            <View style={styles.roleIconContainer}>
+            <Animated.View style={[styles.roleIconContainer, { transform: [{ scale: passengerIconScale }] }]}>
               <Text style={styles.roleIcon}>👤</Text>
-            </View>
+            </Animated.View>
             <View style={styles.roleInfo}>
               <Text style={styles.roleName}>Passenger</Text>
               <Text style={styles.roleDesc}>Book rides easily</Text>
@@ -62,11 +114,15 @@ export default function RoleSelection() {
               styles.roleCard,
               selectedRole === 'driver' && styles.roleCardSelected
             ]}
-            onPress={() => setSelectedRole('driver')}
+            onPress={() => handleRoleSelect('driver')}
           >
-            <View style={styles.roleIconContainer}>
-              <Text style={styles.roleIcon}>🚗</Text>
-            </View>
+            <Animated.View style={[styles.roleIconContainer, { transform: [{ scale: driverIconScale }] }]}>
+              <Image 
+                source={require('../assets/images/pedicab-logo.png')} 
+                style={styles.rolePedicabImage}
+                resizeMode="contain"
+              />
+            </Animated.View>
             <View style={styles.roleInfo}>
               <Text style={styles.roleName}>Driver</Text>
               <Text style={styles.roleDesc}>Start earning today</Text>
@@ -107,6 +163,7 @@ const styles = StyleSheet.create({
   gradient: {
     flex: 1,
     paddingHorizontal: 20,
+    paddingBottom: 50, // Extra padding for Android navigation buttons
   },
   header: {
     alignItems: 'center',
@@ -122,13 +179,19 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#4A90E2',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
+    shadowColor: '#4A90E2',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
   },
-  carEmoji: {
-    fontSize: 24,
+  pedicabImage: {
+    width: 30,
+    height: 30,
   },
   appName: {
     fontSize: 28,
@@ -150,7 +213,8 @@ const styles = StyleSheet.create({
   },
 
   roleSelectionContainer: {
-    marginBottom: 40,
+    marginBottom: 20, // Reduced margin to move buttons up
+    marginTop: 20, // Added top margin for better spacing
   },
   roleTitle: {
     fontSize: 20,
@@ -182,13 +246,19 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#4A90E2',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
+    shadowColor: '#4A90E2',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
-  roleIcon: {
-    fontSize: 24,
+  rolePedicabImage: {
+    width: 24,
+    height: 24,
   },
   roleInfo: {
     flex: 1,
@@ -215,7 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A90E2',
     paddingVertical: 16,
     borderRadius: 12,
-    marginBottom: 30,
+    marginBottom: 15, // Reduced margin
+    marginTop: 10, // Added top margin
   },
   continueButtonDisabled: {
     backgroundColor: '#BDC3C7',
@@ -238,6 +309,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '#4A90E2',
+    marginBottom: 20, // Added bottom margin for Android
   },
   authButtonText: {
     color: '#4A90E2',
