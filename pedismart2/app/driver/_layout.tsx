@@ -12,9 +12,9 @@ export default function DriverLayout() {
           backgroundColor: 'white',
           borderTopWidth: 1,
           borderTopColor: '#E8E8E8',
-          paddingBottom: 5,
+          paddingBottom: 25, // Increased for Android navigation buttons
           paddingTop: 5,
-          height: 60,
+          height: 80, // Increased height to accommodate extra padding
         },
         tabBarLabelStyle: {
           fontSize: 12,

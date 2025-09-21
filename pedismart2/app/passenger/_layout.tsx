@@ -12,9 +12,9 @@ export default function PassengerLayout() {
           backgroundColor: 'white',
           borderTopWidth: 1,
           borderTopColor: '#E8E8E8',
-          paddingBottom: 5,
+          paddingBottom: 25, // Increased for Android navigation buttons
           paddingTop: 5,
-          height: 60,
+          height: 80, // Increased height to accommodate extra padding
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -46,6 +46,15 @@ export default function PassengerLayout() {
           title: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="user" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="manual-booking"
+        options={{
+          title: 'Manual Booking',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="hand-paper" size={size} color={color} />
           ),
         }}
       />
